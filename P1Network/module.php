@@ -46,7 +46,7 @@ class P1Network extends IPSModule
         parent::Create();
         $this->RequireParent("{6DC3D946-0D31-450F-A8C6-C42DB8D7D4F1}");
         
-        $this->Buffer = "";
+        
         
     }
 
@@ -71,7 +71,7 @@ class P1Network extends IPSModule
     public function ApplyChanges()
     {
 
-        $this->Buffer = "";
+
         parent::ApplyChanges();
 
 
@@ -173,7 +173,7 @@ class P1Network extends IPSModule
     {
         $data = json_decode($JSONString);
 
-          IPS_LogMessage("P1Data", utf8_decode($data->Buffer));
+          IPS_LogMessage("P1Data", "-".utf8_decode($data->Buffer));
  
 
         

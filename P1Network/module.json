@@ -1,10 +1,10 @@
 {
     "id": "{1E8947FD-569B-DE9F-F0E7-23012C1AF211}",
-    "name": "P1Network",
+    "name": "P1 Module",
     "type": 3,
     "vendor": "HJS",
     "aliases": [
-        "P1Network"
+        "P1"
     ],
     "parentRequirements": [
         "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}"
