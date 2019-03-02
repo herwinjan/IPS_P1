@@ -33,7 +33,7 @@
  * @property int $SearchIndex
  * @property Plugwise_NetworkState $NetworkState
  */
-class PlugwiseNetwork extends IPSModule
+class P1Network extends IPSModule
 {
     use BufferHelper,
         DebugHelper,
