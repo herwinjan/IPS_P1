@@ -1,5 +1,18 @@
 <?php
 
+/**
+ * WebsocketServer Klasse implementiert das Websocket-Protokoll für einen ServerSocket.
+ * Erweitert IPSModule.
+ *
+ * @package       P1Module
+ * @author        Michael Tröger <micha@nall-chan.net>
+ * @copyright     2017 Michael Tröger
+ * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
+ * @version       1.1
+ * @property string $Data
+ * @property integer $Count
+ *
+ */
 class P1Module extends IPSModule
 {
     
