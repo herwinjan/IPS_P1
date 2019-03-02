@@ -116,7 +116,7 @@ class P1Module extends IPSModule
         $dt = utf8_decode($data->Buffer);
         $pos = strpos($dt,"!");
 
-        $Data== $this->GetBuffer('Data');
+        $Data = $this->GetBuffer('Data');
 
         if ($pos === false)
         {
