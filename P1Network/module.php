@@ -114,7 +114,7 @@ class P1Module extends IPSModule
         parent::Create();
         $this->RequireParent("{6DC3D946-0D31-450F-A8C6-C42DB8D7D4F1}");
         $this->Data="";
-
+        $this->RegisterPropertyString("Data","");
         
     }
 
