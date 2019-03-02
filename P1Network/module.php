@@ -22,16 +22,7 @@
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
  * @version       0.1
  * @example <b>Ohne</b>
- * @property int $FrameID
- * @property array $ReplyData
- * @property string $BufferIN
- * @property string $CirclePlusMAC
- * @property string $StickMAC
- * @property string $NetworkID
- * @property array $NewNodes
- * @property array $Nodes
- * @property int $SearchIndex
- * @property Plugwise_NetworkState $NetworkState
+ * @property string $Data
  */
 class P1Module extends IPSModule
 {
@@ -45,7 +36,7 @@ class P1Module extends IPSModule
     {
         parent::Create();
         $this->RequireParent("{6DC3D946-0D31-450F-A8C6-C42DB8D7D4F1}");
-        $this->data="";
+        $this->Data="";
         
         
     }
@@ -70,22 +61,8 @@ class P1Module extends IPSModule
      */
     public function ApplyChanges()
     {
-
-
         parent::ApplyChanges();
 
-        // Wenn Kernel nicht bereit, dann warten... KR_READY kommt ja gleich
-        if (IPS_GetKernelRunlevel() <> KR_READY) {
-            return;
-        }
-
-
-        // Wenn Parent aktiv, dann Anmeldung an der Hardware bzw. Datenabgleich starten
-        if ($this->HasActiveParent()) {
-            $this->StartNetwork();
-        } else {
-            $this->SetStatus(IS_INACTIVE);
-        }
     }
 
     /**
@@ -105,18 +82,7 @@ class P1Module extends IPSModule
 //        }
     }
 
-    /**
-     * Wird ausgeführt wenn der Kernel hochgefahren wurde.
-     */
-    protected function KernelReady()
-    {
-        $this->RegisterParent();
-        if ($this->HasActiveParent()) {
-            
-        }
-    }
-
-    /**
+      /**
      * Wird ausgeführt wenn sich der Status vom Parent ändert.
      * @access protected
      */
@@ -174,13 +140,13 @@ class P1Module extends IPSModule
 
         if ($pos === false)
         {
-            $this->data=$this->data.$dt;
+            $this->Data=$this->Data.$dt;
 
         }else
         {
-            $this->data=$this->data.$dt;
-            IPS_LogMessage("P1Data", $this->data);
-            $this->data="";
+            $this->Data=$this->Data.$dt;
+            IPS_LogMessage("P1Data", $this->Data);
+            $this->Data="";
         }
 
         
