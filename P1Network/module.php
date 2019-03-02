@@ -33,6 +33,14 @@ class P1Module extends IPSModule
          */
     public $Data="";
 
+     /**
+         * Data
+         * @var int $Cound
+         */
+    public $Count=0;
+
+    
+
     /**
      * Interne Funktion des SDK.
      *
@@ -143,6 +151,9 @@ class P1Module extends IPSModule
 
         $dt = utf8_decode($data->Buffer);
         $pos = strpos($dt,"!");
+
+        IPS_LogMessage("P1 Count", $this->Count++);
+
 
         if ($pos === false)
         {
