@@ -1,29 +1,5 @@
 <?php
 
-/**
- * @addtogroup plugwise
- * @{
- *
- * @package       P1
- * @file          module.php
- * @author        Herwin Jan Steehouwer (herwin@steehouwer.nu)
- * @copyright     2018 Herwin Jan Steehouwer
- * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
- * @version       0.1
- *
- */
-
-
-
-/**
- * P1 meter lezer
- *
- * @package       P1
- * @author        Herwin Jan Steehouwer (herwin@steehouwer.nu)
- * @copyright     2018 Herwin Jan Steehouwer
- * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
- * @version       0.1
- */
 class P1Module extends IPSModule
 {
     
@@ -133,18 +109,6 @@ class P1Module extends IPSModule
         return json_encode($Config);
     }
 
-
-
-
-
-    ################## DATAPOINTS PARENT
-    /**
-     * Empfängt Daten vom Parent.
-     *
-     * @access public
-     * @param string $JSONString Das empfangene JSON-kodierte Objekt vom Parent.
-     * @result bool True wenn Daten verarbeitet wurden, sonst false.
-     */
     public function ReceiveData($JSONString)
     {
         $data = json_decode($JSONString);
@@ -174,7 +138,4 @@ class P1Module extends IPSModule
     }
 
 
-
 }
-
-/** @} */
