@@ -13,6 +13,8 @@
  *
  */
 
+
+
 /**
  * P1 meter lezer
  *
@@ -24,15 +26,90 @@
  * @example <b>Ohne</b>
  * @property string $Data
  */
+
+/**
+ * Ein Trait welcher es ermöglicht über einen Ident Variablen zu beschreiben.
+ */
+trait VariableHelper
+{
+
+    /**
+     * Setzte eine IPS-Variable vom Typ bool auf den Wert von $value
+     *
+     * @access protected
+     * @param string $Ident Ident der Statusvariable.
+     * @param bool $Value Neuer Wert der Statusvariable.
+     * @return bool true wenn Variable vorhanden sonst false.
+     */
+    protected function SetValueBoolean($Ident, $Value, $Profile = "")
+    {
+        $id = @$this->GetIDForIdent($Ident);
+        if ($id == false) {
+            $id = $this->RegisterVariableBoolean(str_replace(' ', '', $Ident), $this->Translate($Ident), $Profile);
+        }
+        SetValueBoolean($id, $Value);
+        return true;
+    }
+
+    /**
+     * Setzte eine IPS-Variable vom Typ integer auf den Wert von $value.
+     *
+     * @access protected
+     * @param string $Ident Ident der Statusvariable.
+     * @param int $Value Neuer Wert der Statusvariable.
+     * @return bool true wenn Variable vorhanden sonst false.
+     */
+    protected function SetValueInteger($Ident, $Value, $Profile = "")
+    {
+        $id = @$this->GetIDForIdent($Ident);
+        if ($id == false) {
+            $id = $this->RegisterVariableInteger(str_replace(' ', '', $Ident), $this->Translate($Ident), $Profile);
+        }
+        SetValueInteger($id, $Value);
+        return true;
+    }
+
+    /**
+     * Setzte eine IPS-Variable vom Typ float auf den Wert von $value.
+     *
+     * @access protected
+     * @param string $Ident Ident der Statusvariable.
+     * @param float $Value Neuer Wert der Statusvariable.
+     * @return bool true wenn Variable vorhanden sonst false.
+     */
+    protected function SetValueFloat($Ident, $Value, $Profile = "")
+    {
+        $id = @$this->GetIDForIdent($Ident);
+        if ($id == false) {
+            $id = $this->RegisterVariableFloat(str_replace(' ', '', $Ident), $this->Translate($Ident), $Profile);
+        }
+        SetValueFloat($id, $Value);
+        return true;
+    }
+
+    /**
+     * Setzte eine IPS-Variable vom Typ string auf den Wert von $value.
+     *
+     * @access protected
+     * @param string $Ident Ident der Statusvariable.
+     * @param string $Value Neuer Wert der Statusvariable.
+     * @return bool true wenn Variable vorhanden sonst false.
+     */
+    protected function SetValueString($Ident, $Value, $Profile = "")
+    {
+        $id = @$this->GetIDForIdent($Ident);
+        if ($id == false) {
+            $id = $this->RegisterVariableString(str_replace(' ', '', $Ident), $this->Translate($Ident), $Profile);
+        }
+        SetValueString($id, $Value);
+        return true;
+    }
+}
+
 class P1Module extends IPSModule
 {
- use BufferHelper,
-        DebugHelper,
-        InstanceStatus,
-        Semaphore,
-        VariableHelper {
-        InstanceStatus::MessageSink as IOMessageSink; // MessageSink gibt es sowohl hier in der Klasse, als auch im Trait InstanceStatus. Hier wird für die Methode im Trait ein Alias benannt.
-    }
+use VariableHelper;
+
     public $Data="";
 
     /**
@@ -45,6 +122,7 @@ class P1Module extends IPSModule
         parent::Create();
         $this->RequireParent("{6DC3D946-0D31-450F-A8C6-C42DB8D7D4F1}");
         $this->Data="";
+        
         
         
     }
@@ -148,7 +226,7 @@ class P1Module extends IPSModule
 
         if ($pos === false)
         {
-            $this->Data=$this->Data.$dt;
+            $this->Data.=$dt;
 
         }else
         {
