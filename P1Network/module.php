@@ -174,11 +174,11 @@ class P1Module extends IPSModule
 
         if ($pos === false)
         {
-            $this->data+dt;
+            $this->data.=$dt;
 
         }else
         {
-            $this->data+dt;
+            $this->data.=$dt;
             IPS_LogMessage("P1Data", $this->data);
             $this->data="";
         }
