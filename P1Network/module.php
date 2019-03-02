@@ -9,24 +9,11 @@
  * @copyright     2017 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
  * @version       1.1
- * @property string $Data
- * @property integer $Count
  *
  */
 class P1Module extends IPSModule
 {
     
-     /**
-         * Data
-         * @var string $Data
-         */
-    public $Data="";
-
-     /**
-         * Data
-         * @var int $Cound
-         */
-    public $Count=0;
 
     
 
@@ -39,8 +26,8 @@ class P1Module extends IPSModule
     {
         parent::Create();
         $this->RequireParent("{6DC3D946-0D31-450F-A8C6-C42DB8D7D4F1}");
-        $this->Data="";
-        $this->RegisterPropertyString("Data","");
+        $this->SetBuffer("Data","");
+        
         
     }
 
@@ -129,20 +116,18 @@ class P1Module extends IPSModule
         $dt = utf8_decode($data->Buffer);
         $pos = strpos($dt,"!");
 
-        IPS_LogMessage("P1 Count", $this->Count++);
-
+        $Data== $this->GetBuffer('Data');
 
         if ($pos === false)
         {
-            $this->Data.=$dt;
-            IPS_LogMessage("P1Data u", $this->Data);
-            return false;
+            $Data.=$dt;
+            $this->SetBuffer("Data",$Data);
 
         }else
         {
-            $this->Data=$this->Data.$dt;
-            IPS_LogMessage("P1Data", $this->Data);
-            $this->Data="";
+            $Data=$Data.$dt;
+            IPS_LogMessage("P1Data", $Data);
+             $this->SetBuffer("Data","");
             
         }
 
