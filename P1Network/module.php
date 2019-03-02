@@ -27,12 +27,8 @@
  * @property string $Data
  */
 
-/**
- * Ein Trait welcher es ermöglicht über einen Ident Variablen zu beschreiben.
- */
 trait VariableHelper
 {
-
     /**
      * Setzte eine IPS-Variable vom Typ bool auf den Wert von $value
      *
@@ -50,7 +46,6 @@ trait VariableHelper
         SetValueBoolean($id, $Value);
         return true;
     }
-
     /**
      * Setzte eine IPS-Variable vom Typ integer auf den Wert von $value.
      *
@@ -68,7 +63,6 @@ trait VariableHelper
         SetValueInteger($id, $Value);
         return true;
     }
-
     /**
      * Setzte eine IPS-Variable vom Typ float auf den Wert von $value.
      *
@@ -86,7 +80,6 @@ trait VariableHelper
         SetValueFloat($id, $Value);
         return true;
     }
-
     /**
      * Setzte eine IPS-Variable vom Typ string auf den Wert von $value.
      *
@@ -106,141 +99,9 @@ trait VariableHelper
     }
 }
 
-/**
- * Trait mit Hilfsfunktionen für Variablenprofile.
- */
-trait VariableProfile
-{
-
-    /**
-     * Erstell und konfiguriert ein VariablenProfil für den Typ integer mit Assoziationen
-     *
-     * @access protected
-     * @param string $Name Name des Profils.
-     * @param string $Icon Name des Icon.
-     * @param string $Prefix Prefix für die Darstellung.
-     * @param string $Suffix Suffix für die Darstellung.
-     * @param array $Associations Assoziationen der Werte als Array.
-     */
-    protected function RegisterProfileIntegerEx($Name, $Icon, $Prefix, $Suffix, $Associations)
-    {
-        if (sizeof($Associations) === 0) {
-            $MinValue = 0;
-            $MaxValue = 0;
-        } else {
-            $MinValue = $Associations[0][0];
-            $MaxValue = $Associations[sizeof($Associations) - 1][0];
-        }
-        $this->RegisterProfileInteger($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, 0);
-        $old = IPS_GetVariableProfile($Name)["Associations"];
-        $OldValues = array_column($old, 'Value');
-        foreach ($Associations as $Association) {
-            IPS_SetVariableProfileAssociation($Name, $Association[0], $Association[1], $Association[2], $Association[3]);
-            $OldKey = array_search($Association[0], $OldValues);
-            if (!($OldKey === false)) {
-                unset($OldValues[$OldKey]);
-            }
-        }
-        foreach ($OldValues as $OldKey => $OldValue) {
-            IPS_SetVariableProfileAssociation($Name, $OldValue, '', '', 0);
-        }
-    }
-
-    /**
-     * Erstell und konfiguriert ein VariablenProfil für den Typ integer
-     *
-     * @access protected
-     * @param string $Name Name des Profils.
-     * @param string $Icon Name des Icon.
-     * @param string $Prefix Prefix für die Darstellung.
-     * @param string $Suffix Suffix für die Darstellung.
-     * @param int $MinValue Minimaler Wert.
-     * @param int $MaxValue Maximaler wert.
-     * @param int $StepSize Schrittweite
-     */
-    protected function RegisterProfileInteger($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize)
-    {
-        $this->RegisterProfile(1, $Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize);
-    }
-
-    /**
-     * Erstell und konfiguriert ein VariablenProfil für den Typ float
-     *
-     * @access protected
-     * @param string $Name Name des Profils.
-     * @param string $Icon Name des Icon.
-     * @param string $Prefix Prefix für die Darstellung.
-     * @param string $Suffix Suffix für die Darstellung.
-     * @param int $MinValue Minimaler Wert.
-     * @param int $MaxValue Maximaler wert.
-     * @param int $StepSize Schrittweite
-     */
-    protected function RegisterProfileFloat($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits)
-    {
-        $this->RegisterProfile(2, $Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits);
-    }
-
-    /**
-     * Erstell und konfiguriert ein VariablenProfil für den Typ float
-     *
-     * @access protected
-     * @param int $VarTyp Typ der Variable
-     * @param string $Name Name des Profils.
-     * @param string $Icon Name des Icon.
-     * @param string $Prefix Prefix für die Darstellung.
-     * @param string $Suffix Suffix für die Darstellung.
-     * @param int $MinValue Minimaler Wert.
-     * @param int $MaxValue Maximaler wert.
-     * @param int $StepSize Schrittweite
-     */
-    protected function RegisterProfile($VarTyp, $Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize, $Digits = 0)
-    {
-        if (!IPS_VariableProfileExists($Name)) {
-            IPS_CreateVariableProfile($Name, $VarTyp);
-        } else {
-            $profile = IPS_GetVariableProfile($Name);
-            if ($profile['ProfileType'] != $VarTyp) {
-                throw new Exception("Variable profile type does not match for profile " . $Name, E_USER_WARNING);
-            }
-        }
-
-        IPS_SetVariableProfileIcon($Name, $Icon);
-        IPS_SetVariableProfileText($Name, $Prefix, $Suffix);
-        IPS_SetVariableProfileValues($Name, $MinValue, $MaxValue, $StepSize);
-        if ($VarTyp == vtFloat) {
-            IPS_SetVariableProfileDigits($Name, $Digits);
-        }
-    }
-
-    /**
-     * Löscht ein Variablenprofile, sofern es nicht außerhalb dieser Instanz noch verwendet wird.
-     * @param string $Name Name des zu löschenden Profils.
-     */
-    protected function UnregisterProfil(string $Name)
-    {
-        if (!IPS_VariableProfileExists($Name)) {
-            return;
-        }
-        foreach (IPS_GetVariableList() as $VarID) {
-            if (IPS_GetParent($VarID) == $this->InstanceID) {
-                continue;
-            }
-            if (IPS_GetVariable($VarID)['VariableCustomProfile'] == $Name) {
-                return;
-            }
-            if (IPS_GetVariable($VarID)['VariableProfile'] == $Name) {
-                return;
-            }
-        }
-        IPS_DeleteVariableProfile($Name);
-    }
-}
-
-
 class P1Module extends IPSModule
 {
-use VariableHelper,VariableProfile;
-
+    use VariableHelper;
     public $Data="";
 
     /**
@@ -253,8 +114,7 @@ use VariableHelper,VariableProfile;
         parent::Create();
         $this->RequireParent("{6DC3D946-0D31-450F-A8C6-C42DB8D7D4F1}");
         $this->Data="";
-        
-        
+
         
     }
 
@@ -358,12 +218,15 @@ use VariableHelper,VariableProfile;
         if ($pos === false)
         {
             $this->Data.=$dt;
+            IPS_LogMessage("P1Data u", $this->Data);
+            return false;
 
         }else
         {
             $this->Data=$this->Data.$dt;
             IPS_LogMessage("P1Data", $this->Data);
             $this->Data="";
+            
         }
 
         
