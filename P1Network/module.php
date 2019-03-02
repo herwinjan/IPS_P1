@@ -26,7 +26,13 @@
  */
 class P1Module extends IPSModule
 {
-
+ use BufferHelper,
+        DebugHelper,
+        InstanceStatus,
+        Semaphore,
+        VariableHelper {
+        InstanceStatus::MessageSink as IOMessageSink; // MessageSink gibt es sowohl hier in der Klasse, als auch im Trait InstanceStatus. Hier wird für die Methode im Trait ein Alias benannt.
+    }
     public $Data="";
 
     /**
