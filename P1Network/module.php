@@ -26,7 +26,13 @@
  */
 class P1Module extends IPSModule
 {
-    
+
+        use
+        InstanceStatus,
+        BufferHelper;
+
+    public $Data="";
+
     /**
      * Interne Funktion des SDK.
      *
