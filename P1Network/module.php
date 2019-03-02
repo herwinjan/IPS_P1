@@ -45,7 +45,7 @@ class P1Module extends IPSModule
     {
         parent::Create();
         $this->RequireParent("{6DC3D946-0D31-450F-A8C6-C42DB8D7D4F1}");
-        
+        $this->data="";
         
         
     }
@@ -73,10 +73,6 @@ class P1Module extends IPSModule
 
 
         parent::ApplyChanges();
-
-
-        // Config prüfen
-        $this->RegisterParent();
 
         // Wenn Kernel nicht bereit, dann warten... KR_READY kommt ja gleich
         if (IPS_GetKernelRunlevel() <> KR_READY) {
@@ -173,8 +169,19 @@ class P1Module extends IPSModule
     {
         $data = json_decode($JSONString);
 
-          IPS_LogMessage("P1Data", "-".utf8_decode($data->Buffer));
- 
+        $dt = utf8_decode($data->Buffer);
+        $pos = strpos($dt,"!");
+
+        if ($pos === false)
+        {
+            $this->data+dt;
+
+        }else
+        {
+            $this->data+dt;
+            IPS_LogMessage("P1Data", $this->data);
+            $this->data="";
+        }
 
         
         return true;
