@@ -72,17 +72,17 @@ class P1Module extends IPSModule {
   if (!IPS_VariableProfileExists("P1kWhProfile")) {
    IPS_CreateVariableProfile("P1kWhProfile", 2);
    IPS_SetVariableProfileDigits("P1kWhProfile", 2);
-   IPS_SetVariableProfileText("P1kWhProfile", "", "kWh");
+   IPS_SetVariableProfileText("P1kWhProfile", "", " kWh");
   }
   if (!IPS_VariableProfileExists("P1kWattProfile")) {
    IPS_CreateVariableProfile("P1kWattProfile", 1);
 
-   IPS_SetVariableProfileText("P1kWattProfile", "", "Watt");
+   IPS_SetVariableProfileText("P1kWattProfile", "", " Watt");
   }
   if (!IPS_VariableProfileExists("P1GasProfile")) {
    IPS_CreateVariableProfile("P1GasProfile", 2);
    IPS_SetVariableProfileDigits("P1GasProfile", 2);
-   IPS_SetVariableProfileText("P1GasProfile", "", "m3");
+   IPS_SetVariableProfileText("P1GasProfile", "", " m3");
   }
   if (!IPS_VariableProfileExists("P1TariefProfile")) {
    IPS_CreateVariableProfile("P1TariefProfile", 0);
@@ -95,8 +95,20 @@ class P1Module extends IPSModule {
   IPS_SetVariableCustomProfile($id, "P1kWhProfile");
   $id = $this->__CreateVariable("Verbuik Dag", 2, 0, "P1VerbruikDag", $this->InstanceID);
   IPS_SetVariableCustomProfile($id, "P1kWhProfile");
+  $id = $this->__CreateVariable("Opbrengst Nacht", 2, 0, "P1OpbrengstNacht", $this->InstanceID);
+  IPS_SetVariableCustomProfile($id, "P1kWhProfile");
+  $id = $this->__CreateVariable("Opbrengst Dag", 2, 0, "P1OpbrengstDag", $this->InstanceID);
+  IPS_SetVariableCustomProfile($id, "P1kWhProfile");
   $id = $this->__CreateVariable("Huidig Vebruik", 1, 0, "P1HuidigVerbruik", $this->InstanceID);
   IPS_SetVariableCustomProfile($id, "P1kWattProfile");
+  $id = $this->__CreateVariable("Huidig Opbrengst", 1, 0, "P1HuidigOpbrengst", $this->InstanceID);
+  IPS_SetVariableCustomProfile($id, "P1kWattProfile");
+  $id = $this->__CreateVariable("Totaal Vebruik", 1, 0, "P1TotaalVerbruik", $this->InstanceID);
+  IPS_SetVariableCustomProfile($id, "P1kWattProfile");
+  $id = $this->__CreateVariable("Actueel Tarief", 0, 0, "P1Tarief", $this->InstanceID);
+  IPS_SetVariableCustomProfile($id, "P1TariefProfile");
+  $id = $this->__CreateVariable("Gas vebruik", 2, 0, "P1Gas", $this->InstanceID);
+  IPS_SetVariableCustomProfile($id, "P1GasProfile");
 
  }
 
@@ -199,17 +211,34 @@ class P1Module extends IPSModule {
    $verbruikdag = (float)(@$output_array[2]);
    IPS_LogMessage("P1Data", $verbruikdag);
 
+   $sid = @IPS_GetObjectIDByIdent("P1VerbruikDag", $this->InstanceID);
+   if ($sid) {
+    SetValue($sid, $verbruikdag);
+   }
+
    preg_match('/^(1-0:2\.8\.1\((\d+\.\d+)\*kWh\))/m', $Data, $output_array);
    $opbrengstnacht = (float)(@$output_array[2]);
    IPS_LogMessage("P1Data", $opbrengstnacht);
+   $sid = @IPS_GetObjectIDByIdent("P1OpbrengstNacht", $this->InstanceID);
+   if ($sid) {
+    SetValue($sid, $opbrengstnacht);
+   }
 
    preg_match('/^(1-0:2\.8\.2\((\d+\.\d+)\*kWh\))/m', $Data, $output_array);
    $opbrengstdag = (float)(@$output_array[2]);
    IPS_LogMessage("P1Data", $opbrengstdag);
+   $sid = @IPS_GetObjectIDByIdent("P1OpbrengstDag", $this->InstanceID);
+   if ($sid) {
+    SetValue($sid, $opbrengstdag);
+   }
 
    preg_match('/^(0-0:96\.14\.0\((\d+)\))/m', $Data, $output_array);
    $tarief = boolval(@$output_array[2]);
    IPS_LogMessage("P1Data", $tarief);
+   $sid = @IPS_GetObjectIDByIdent("P1Tarief", $this->InstanceID);
+   if ($sid) {
+    SetValue($sid, $tarief);
+   }
 
    preg_match('/^(1-0:1\.7\.0\((\d+.\d+)\*kW\))/m', $Data, $output_array);
    $huidigvebruik = (float)(@$output_array[2]) * 1000;
@@ -223,13 +252,25 @@ class P1Module extends IPSModule {
    preg_match('/^(1-0:2\.7\.0\((\d+.\d+)\*kW\))/m', $Data, $output_array);
    $huidigopbrengst = (float)(@$output_array[2]) * 1000;
    IPS_LogMessage("P1Data", $huidigopbrengst);
+   $sid = @IPS_GetObjectIDByIdent("P1HuidigOpbrengst", $this->InstanceID);
+   if ($sid) {
+    SetValue($sid, $huidigopbrengst);
+   }
 
    $huidigtotaal = $huidigvebruik - $huidigopbrengst;
    IPS_LogMessage("P1Data", $huidigtotaal);
+   $sid = @IPS_GetObjectIDByIdent("P1TotaalVerbruik", $this->InstanceID);
+   if ($sid) {
+    SetValue($sid, $huidigtotaal);
+   }
 
    preg_match('/^(\((\d+\.\d+)\))/m', $Data, $output_array);
    $gasverbruik = (float)(@$output_array[2]);
    IPS_LogMessage("P1Data", $gasverbruik);
+   $sid = @IPS_GetObjectIDByIdent("P1Gas", $this->InstanceID);
+   if ($sid) {
+    SetValue($sid, $gasverbruik);
+   }
 
    $this->SetBuffer("Data", "");
 
