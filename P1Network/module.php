@@ -11,129 +11,121 @@
  * @version       1.1
  *
  */
-class P1Module extends IPSModule
-{
-    
+class P1Module extends IPSModule {
 
-    
+ /**
+  * Interne Funktion des SDK.
+  *
+  * @access public
+  */
+ public function Create() {
+  parent::Create();
+  $this->RequireParent("{6DC3D946-0D31-450F-A8C6-C42DB8D7D4F1}");
+  $this->SetBuffer("Data", "");
 
-    /**
-     * Interne Funktion des SDK.
-     *
-     * @access public
-     */
-    public function Create()
-    {
-        parent::Create();
-        $this->RequireParent("{6DC3D946-0D31-450F-A8C6-C42DB8D7D4F1}");
-        $this->SetBuffer("Data","");
-        
-        
-    }
+ }
 
-    /**
-     * Interne Funktion des SDK.
-     *
-     * @access public
-     */
-    public function Destroy()
-    {
-        if (IPS_InstanceExists($this->InstanceID)) {
-            
-        }
-        parent::Destroy();
-    }
+ /**
+  * Interne Funktion des SDK.
+  *
+  * @access public
+  */
+ public function Destroy() {
+  if (IPS_InstanceExists($this->InstanceID)) {
 
-    /**
-     * Interne Funktion des SDK.
-     *
-     * @access public
-     */
-    public function ApplyChanges()
-    {
-        parent::ApplyChanges();
+  }
+  parent::Destroy();
+ }
 
-    }
+ /**
+  * Interne Funktion des SDK.
+  *
+  * @access public
+  */
+ public function ApplyChanges() {
+  parent::ApplyChanges();
 
-    /**
-     * Interne Funktion des SDK.
-     *
-     * @access public
-     */
-    public function MessageSink($TimeStamp, $SenderID, $Message, $Data)
-    {
-        $this->IOMessageSink($TimeStamp, $SenderID, $Message, $Data);
+ }
+
+ /**
+  * Interne Funktion des SDK.
+  *
+  * @access public
+  */
+ public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
+  $this->IOMessageSink($TimeStamp, $SenderID, $Message, $Data);
 
 //        switch ($Message)
-//        {
-//            case IPS_KERNELSTARTED:
-//                $this->KernelReady();
-//                break;
-//        }
-    }
+  //        {
+  //            case IPS_KERNELSTARTED:
+  //                $this->KernelReady();
+  //                break;
+  //        }
+ }
 
-      /**
-     * Wird ausgeführt wenn sich der Status vom Parent ändert.
-     * @access protected
-     */
-    protected function IOChangeState($State)
-    {
-        if ($State == IS_ACTIVE) {
-            
-            
-        } else {
-            
-        }
-    }
+ /**
+  * Wird ausgeführt wenn sich der Status vom Parent ändert.
+  * @access protected
+  */
+ protected function IOChangeState($State) {
+  if ($State == IS_ACTIVE) {
 
-    /**
-     * Interne Funktion des SDK.
-     *
-     * @access public
-     */
-    public function GetConfigurationForm()
-    {
-    }
+  } else {
 
-    /**
-     * Interne Funktion des SDK.
-     *
-     * @access public
-     */
-    public function GetConfigurationForParent()
-    {
-        $Config['StopBits'] = 1;
-        $Config['BaudRate'] = 9600;
-        $Config['Parity'] = 'Even';
-        $Config['DataBits'] = 7;
-        return json_encode($Config);
-    }
+  }
+ }
 
-    public function ReceiveData($JSONString)
-    {
-        $data = json_decode($JSONString);
+ /**
+  * Interne Funktion des SDK.
+  *
+  * @access public
+  */
+ public function GetConfigurationForm() {
+ }
 
-        $dt = utf8_decode($data->Buffer);
-        $pos = strpos($dt,"!");
+ /**
+  * Interne Funktion des SDK.
+  *
+  * @access public
+  */
+ public function GetConfigurationForParent() {
+  $Config['StopBits'] = 1;
+  $Config['BaudRate'] = 9600;
+  $Config['Parity'] = 'Even';
+  $Config['DataBits'] = 7;
+  return json_encode($Config);
+ }
 
-        $Data = $this->GetBuffer('Data');
+ public function ReceiveData($JSONString) {
+  $data = json_decode($JSONString);
 
-        if ($pos === false)
-        {
-            $Data.=$dt;
-            $this->SetBuffer("Data",$Data);
+  $dt = utf8_decode($data->Buffer);
+  $pos = strpos($dt, "!");
 
-        }else
-        {
-            $Data=$Data.$dt;
-            IPS_LogMessage("P1Data", $Data);
-             $this->SetBuffer("Data","");
-            
-        }
+  $Data = $this->GetBuffer('Data');
 
-        
-        return true;
-    }
+  if ($pos === false) {
+   $Data .= $dt;
+   $this->SetBuffer("Data", $Data);
 
+  } else {
+   $Data = $Data . $dt;
+   IPS_LogMessage("P1Data", $Data);
+
+   preg_match('/^(1-0:1\.8\.1\((\d+\.\d+)\*kWh\))/', $Data, $output_array);
+   IPS_LogMessage("P1Data", $output_array[2]);
+   preg_match('/^(1-0:1\.8\.2\((\d+\.\d+)\*kWh\))/', $Data, $output_array);
+   preg_match('/^(2-0:1\.8\.1\((\d+\.\d+)\*kWh\))/', $Data, $output_array);
+   preg_match('/^(2-0:1\.8\.2\((\d+\.\d+)\*kWh\))/', $Data, $output_array);
+   preg_match('/^(0-0:96\.14\.0\((\d+)\))/', $Data, $output_array);
+   preg_match('/^(1-0:1\.7\.0\((\d+.\d+)\*kW\))/', $Data, $output_array);
+   preg_match('/^(1-0:2\.7\.0\((\d+.\d+)\*kW\))/', $Data, $output_array);
+
+   $this->SetBuffer("Data", "");
+
+  }
+
+  return true;
+ }
 
 }
