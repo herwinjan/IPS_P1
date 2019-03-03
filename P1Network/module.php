@@ -110,7 +110,7 @@ class P1Module extends IPSModule {
 
   } else {
    $Data = $Data . $dt;
-   //IPS_LogMessage("P1Data", $Data);
+   IPS_LogMessage("P1Data", $Data);
 
    preg_match('/^(1-0:1\.8\.1\((\d+\.\d+)\*kWh\))/m', $Data, $output_array);
    $verbruiknacht = floatval(@$output_array[2]);
@@ -129,14 +129,20 @@ class P1Module extends IPSModule {
    IPS_LogMessage("P1Data", $opbrengstdag);
 
    preg_match('/^(0-0:96\.14\.0\((\d+)\))/m', $Data, $output_array);
-   IPS_LogMessage("P1Data", @$output_array[2]);
+   $tarief = boolval(@$output_array[2]);
+   IPS_LogMessage("P1Data", $tarief);
+
    preg_match('/^(1-0:1\.7\.0\((\d+.\d+)\*kW\))/m', $Data, $output_array);
-   IPS_LogMessage("P1Data", @$output_array[2]);
+   $huidigvebruik = floatval(@$output_array[2]);
+   IPS_LogMessage("P1Data", $huidigvebruik);
+
    preg_match('/^(1-0:2\.7\.0\((\d+.\d+)\*kW\))/m', $Data, $output_array);
-   IPS_LogMessage("P1Data", @$output_array[2]);
+   $huidigopbrengst = floatval(@$output_array[2]);
+   IPS_LogMessage("P1Data", $huidigopbrengst);
 
    preg_match('/^(\((\d+\.\d+)\))/m', $Data, $output_array);
-   IPS_LogMessage("P1Data", @$output_array[2]);
+   $gasverbruik = floatval(@$output_array[2]);
+   IPS_LogMessage("P1Data", $gasverbruik);
 
    $this->SetBuffer("Data", "");
 
