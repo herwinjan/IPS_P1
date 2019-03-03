@@ -204,7 +204,10 @@ class P1Module extends IPSModule {
    IPS_LogMessage("P1Data", $verbruiknacht);
    $sid = @IPS_GetObjectIDByIdent("P1VerbruikNacht", $this->InstanceID);
    if ($sid) {
-    SetValue($sid, $verbruiknacht);
+    $val = GetValue($sid);
+    if ($verbruiknacht != $val) {
+     SetValue($sid, $verbruiknacht);
+    }
    }
 
    preg_match('/^(1-0:1\.8\.2\((\d+\.\d+)\*kWh\))/m', $Data, $output_array);
@@ -213,7 +216,9 @@ class P1Module extends IPSModule {
 
    $sid = @IPS_GetObjectIDByIdent("P1VerbruikDag", $this->InstanceID);
    if ($sid) {
-    SetValue($sid, $verbruikdag);
+    $val = GetValue($sid);
+    if ($verbruikdag != $val) {
+     SetValue($sid, $verbruikdag);}
    }
 
    preg_match('/^(1-0:2\.8\.1\((\d+\.\d+)\*kWh\))/m', $Data, $output_array);
@@ -221,7 +226,10 @@ class P1Module extends IPSModule {
    IPS_LogMessage("P1Data", $opbrengstnacht);
    $sid = @IPS_GetObjectIDByIdent("P1OpbrengstNacht", $this->InstanceID);
    if ($sid) {
-    SetValue($sid, $opbrengstnacht);
+    $val = GetValue($sid);
+    if ($opbrengstnacht != $val) {
+     SetValue($sid, $opbrengstnacht);
+    }
    }
 
    preg_match('/^(1-0:2\.8\.2\((\d+\.\d+)\*kWh\))/m', $Data, $output_array);
@@ -229,7 +237,9 @@ class P1Module extends IPSModule {
    IPS_LogMessage("P1Data", $opbrengstdag);
    $sid = @IPS_GetObjectIDByIdent("P1OpbrengstDag", $this->InstanceID);
    if ($sid) {
-    SetValue($sid, $opbrengstdag);
+    $val = GetValue($sid);
+    if ($opbrengstdag != $val) {
+     SetValue($sid, $opbrengstdag);}
    }
 
    preg_match('/^(0-0:96\.14\.0\((\d+)\))/m', $Data, $output_array);
@@ -237,7 +247,9 @@ class P1Module extends IPSModule {
    IPS_LogMessage("P1Data", $tarief);
    $sid = @IPS_GetObjectIDByIdent("P1Tarief", $this->InstanceID);
    if ($sid) {
-    SetValue($sid, $tarief);
+    $val = GetValue($sid);
+    if ($tarief != $val) {
+     SetValue($sid, $tarief);}
    }
 
    preg_match('/^(1-0:1\.7\.0\((\d+.\d+)\*kW\))/m', $Data, $output_array);
@@ -246,7 +258,9 @@ class P1Module extends IPSModule {
 
    $sid = @IPS_GetObjectIDByIdent("P1HuidigVerbruik", $this->InstanceID);
    if ($sid) {
-    SetValue($sid, $huidigvebruik);
+    $val = GetValue($sid);
+    if ($huidigvebruik != $val) {
+     SetValue($sid, $huidigvebruik);}
    }
 
    preg_match('/^(1-0:2\.7\.0\((\d+.\d+)\*kW\))/m', $Data, $output_array);
@@ -254,14 +268,18 @@ class P1Module extends IPSModule {
    IPS_LogMessage("P1Data", $huidigopbrengst);
    $sid = @IPS_GetObjectIDByIdent("P1HuidigOpbrengst", $this->InstanceID);
    if ($sid) {
-    SetValue($sid, $huidigopbrengst);
+    $val = GetValue($sid);
+    if ($huidigopbrengst != $val) {
+     SetValue($sid, $huidigopbrengst);}
    }
 
    $huidigtotaal = $huidigvebruik - $huidigopbrengst;
    IPS_LogMessage("P1Data", $huidigtotaal);
    $sid = @IPS_GetObjectIDByIdent("P1TotaalVerbruik", $this->InstanceID);
    if ($sid) {
-    SetValue($sid, $huidigtotaal);
+    $val = GetValue($sid);
+    if ($huidigtotaal != $val) {
+     SetValue($sid, $huidigtotaal);}
    }
 
    preg_match('/^(\((\d+\.\d+)\))/m', $Data, $output_array);
@@ -269,7 +287,9 @@ class P1Module extends IPSModule {
    IPS_LogMessage("P1Data", $gasverbruik);
    $sid = @IPS_GetObjectIDByIdent("P1Gas", $this->InstanceID);
    if ($sid) {
-    SetValue($sid, $gasverbruik);
+    $val = GetValue($sid);
+    if ($huidiggasverbruikopbrengst != $val) {
+     SetValue($sid, $gasverbruik);}
    }
 
    $this->SetBuffer("Data", "");
