@@ -112,23 +112,23 @@ class P1Module extends IPSModule {
    $Data = $Data . $dt;
    IPS_LogMessage("P1Data", $Data);
 
-   preg_match_all('/^(1-0:1\.8\.1\((\d+\.\d+)\*kWh\))/m', $Data, $output_array, PREG_SET_ORDER, 0);
-   IPS_LogMessage("P1Data", $output_array[2]);
-   preg_match_all('/^(1-0:1\.8\.2\((\d+\.\d+)\*kWh\))/m', $Data, $output_array, PREG_SET_ORDER, 0);
-   IPS_LogMessage("P1Data", $output_array[2]);
-   preg_match_all('/^(2-0:1\.8\.1\((\d+\.\d+)\*kWh\))/m', $Data, $output_array, PREG_SET_ORDER, 0);
-   IPS_LogMessage("P1Data", $output_array[2]);
-   preg_match_all('/^(2-0:1\.8\.2\((\d+\.\d+)\*kWh\))/m', $Data, $output_array, PREG_SET_ORDER, 0);
-   IPS_LogMessage("P1Data", $output_array[2]);
-   preg_match_all('/^(0-0:96\.14\.0\((\d+)\))/m', $Data, $output_array, PREG_SET_ORDER, 0);
-   IPS_LogMessage("P1Data", $output_array[2]);
-   preg_match_all('/^(1-0:1\.7\.0\((\d+.\d+)\*kW\))/m', $Data, $output_array, PREG_SET_ORDER, 0);
-   IPS_LogMessage("P1Data", $output_array[2]);
-   preg_match_all('/^(1-0:2\.7\.0\((\d+.\d+)\*kW\))/m', $Data, $output_array, PREG_SET_ORDER, 0);
-   IPS_LogMessage("P1Data", $output_array[2]);
+   preg_match('/^(1-0:1\.8\.1\((\d+\.\d+)\*kWh\))/m', $Data, $output_array);
+   IPS_LogMessage("P1Data", @$output_array[2]);
+   preg_match('/^(1-0:1\.8\.2\((\d+\.\d+)\*kWh\))/m', $Data, $output_array);
+   IPS_LogMessage("P1Data", @$output_array[2]);
+   preg_match('/^(2-0:1\.8\.1\((\d+\.\d+)\*kWh\))/m', $Data, $output_array);
+   IPS_LogMessage("P1Data", @$output_array[2]);
+   preg_match('/^(2-0:1\.8\.2\((\d+\.\d+)\*kWh\))/m', $Data, $output_array);
+   IPS_LogMessage("P1Data", @$output_array[2]);
+   preg_match('/^(0-0:96\.14\.0\((\d+)\))/m', $Data, $output_array);
+   IPS_LogMessage("P1Data", @$output_array[2]);
+   preg_match('/^(1-0:1\.7\.0\((\d+.\d+)\*kW\))/m', $Data, $output_array);
+   IPS_LogMessage("P1Data", @$output_array[2]);
+   preg_match('/^(1-0:2\.7\.0\((\d+.\d+)\*kW\))/m', $Data, $output_array);
+   IPS_LogMessage("P1Data", @$output_array[2]);
 
-   preg_match_all('/^(\((\d+\.\d+)\))/m', $Data, $output_array, PREG_SET_ORDER, 0);
-   IPS_LogMessage("P1Data", $output_array[2]);
+   preg_match('/^(\((\d+\.\d+)\))/m', $Data, $output_array);
+   IPS_LogMessage("P1Data", @$output_array[2]);
 
    $this->SetBuffer("Data", "");
 
