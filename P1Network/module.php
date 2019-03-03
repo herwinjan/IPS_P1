@@ -95,7 +95,7 @@ class P1Module extends IPSModule {
   IPS_SetVariableCustomProfile($id, "P1kWhProfile");
   $id = $this->__CreateVariable("Verbuik Dag", 2, 0, "P1VerbruikDag", $this->InstanceID);
   IPS_SetVariableCustomProfile($id, "P1kWhProfile");
-  $id = $this->__CreateVariable("Huidig Vebruik", 2, 0, "P1HuidigVerbruik", $this->InstanceID);
+  $id = $this->__CreateVariable("Huidig Vebruik", 1, 0, "P1HuidigVerbruik", $this->InstanceID);
   IPS_SetVariableCustomProfile($id, "P1kWattProfile");
 
  }
