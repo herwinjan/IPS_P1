@@ -116,9 +116,9 @@ class P1Module extends IPSModule {
    IPS_LogMessage("P1Data", @$output_array[2]);
    preg_match('/^(1-0:1\.8\.2\((\d+\.\d+)\*kWh\))/m', $Data, $output_array);
    IPS_LogMessage("P1Data", @$output_array[2]);
-   preg_match('/^(2-0:2\.8\.1\((\d+\.\d+)\*kWh\))/m', $Data, $output_array);
+   preg_match('/^(1-0:2\.8\.1\((\d+\.\d+)\*kWh\))/m', $Data, $output_array);
    IPS_LogMessage("P1Data", @$output_array[2]);
-   preg_match('/^(2-0:2\.8\.2\((\d+\.\d+)\*kWh\))/m', $Data, $output_array);
+   preg_match('/^(1-0:2\.8\.2\((\d+\.\d+)\*kWh\))/m', $Data, $output_array);
    IPS_LogMessage("P1Data", @$output_array[2]);
    preg_match('/^(0-0:96\.14\.0\((\d+)\))/m', $Data, $output_array);
    IPS_LogMessage("P1Data", @$output_array[2]);
