@@ -176,10 +176,11 @@ class P1Module extends IPSModule {
   * @access public
   */
  public function GetConfigurationForParent() {
+  //115200 8N1
   $Config['StopBits'] = 1;
-  $Config['BaudRate'] = 9600;
-  $Config['Parity'] = 'Even';
-  $Config['DataBits'] = 7;
+  $Config['BaudRate'] = 115200;
+  $Config['Parity'] = 'None';
+  $Config['DataBits'] = 8;
   return json_encode($Config);
  }
 
