@@ -248,9 +248,16 @@ class P1Module extends IPSModule {
             //  IPS_LogMessage("P1Data", $tarief);
             $sid = @IPS_GetObjectIDByIdent("P1Tarief", $this->InstanceID);
             if ($sid) {
+                // fase Dag, true Nacht
+                if ($tarief == 2) {
+                    $trf = false;
+                } else {
+                    $trf = true;
+                }
+
                 $val = GetValue($sid);
-                if ($tarief != $val) {
-                    SetValue($sid, $tarief);}
+                if ($trf != $val) {
+                    SetValue($sid, $trf);}
             }
 
             preg_match('/^(1-0:1\.7\.0\((\d+.\d+)\*kW\))/m', $Data, $output_array);
