@@ -244,8 +244,8 @@ class P1Module extends IPSModule {
             }
 
             preg_match('/^(0-0:96\.14\.0\((\d+)\))/m', $Data, $output_array);
-            $tarief = boolval(@$output_array[2]);
-            IPS_LogMessage($_IPS['SELF'], $tarief);
+            $tarief = (int) (@$output_array[2]);
+            IPS_LogMessage("P1Data", $tarief);
             $sid = @IPS_GetObjectIDByIdent("P1Tarief", $this->InstanceID);
             if ($sid) {
                 // fase Dag, true Nacht
